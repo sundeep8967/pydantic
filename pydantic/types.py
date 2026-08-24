@@ -1760,7 +1760,7 @@ def _serialize_secret_field(
         # hence we just use `secret_display`
         if hasattr(value, 'get_secret_value'):
             return _secret_display(value.get_secret_value())
-        return str(value)
+        return _secret_display(value)
     else:
         return value
 

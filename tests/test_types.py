@@ -1105,6 +1105,16 @@ def test_secret_field_none_default_model_dump_json():
     assert m.model_dump_json() == '{"s":null,"b":null}'
 
 
+def test_secret_field_unvalidated_raw_value_masked_in_json():
+    class M(BaseModel):
+        s: SecretStr
+
+    # Test that raw strings via model_construct or unvalidated assignments are masked rather than exposed verbatim
+    m = M.model_construct(s='raw_secret')
+    assert m.model_dump_json() == '{"s":"**********"}'
+
+
+
 
 def test_secret_str_min_max_length():
     class Foobar(BaseModel):
